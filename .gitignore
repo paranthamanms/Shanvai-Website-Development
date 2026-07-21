@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.DS_Store
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+!**/.env.example
+
+# Build outputs
+dist/
+build/
+.next/
+**/dist/
+apps/chatbot/dist/
+services/analytics-lead/dist/
+
+# Logs & coverage
+*.log
+coverage/
+.turbo/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Docker
+postgres-data/

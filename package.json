@@ -1,0 +1,23 @@
+{
+  "name": "shanvai-website-development",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shanvai Technologies website — MFE shell, chatbot remote, and analytics/lead API",
+  "workspaces": [
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev -w @shanvai/analytics-lead-service",
+    "dev:shell": "npm run dev -w @shanvai/shell",
+    "dev:chatbot": "npm run dev -w @shanvai/chatbot-mfe",
+    "build": "npm run build -w @shanvai/analytics-lead-service && npm run build -w @shanvai/chatbot-mfe && npm run build -w @shanvai/shell",
+    "db:up": "docker compose up -d postgres",
+    "db:migrate": "npm run migrate -w @shanvai/analytics-lead-service",
+    "stack:up": "docker compose up -d --build",
+    "stack:down": "docker compose down"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

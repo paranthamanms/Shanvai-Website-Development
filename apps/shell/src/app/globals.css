@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --electric: #1ae0ff;
+  --ink: #070b14;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: #e8eef7;
+}
+
+::selection {
+  background: rgba(26, 224, 255, 0.35);
+  color: #fff;
+}
+
+@keyframes pulse-line {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.animate-pulse-line {
+  animation: pulse-line 3.2s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+@keyframes drift {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-drift {
+  animation: drift 7s ease-in-out infinite;
+}
