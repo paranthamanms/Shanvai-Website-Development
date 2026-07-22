@@ -20,6 +20,7 @@ interface UiMessage {
 const PRESET_CHIPS = [
   'What is Shanvai Decision Core?',
   'Tell me about Shanvai Credit Bureau',
+  'What is Shanvai AIOps?',
   'How can BFSI institutions partner?',
 ];
 
@@ -119,11 +120,11 @@ export function ChatbotFallback({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-            className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-panel shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+            className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft"
           >
-            <header className="flex items-center justify-between border-b border-white/10 bg-[#0A1220] px-4 py-3">
+            <header className="flex items-center justify-between border-b border-line bg-brandSoft px-4 py-3">
               <div>
-                <p id={titleId} className="font-display text-base font-semibold text-snow">
+                <p id={titleId} className="font-display text-base font-semibold text-inkStrong">
                   Shanvai Assistant
                 </p>
                 <p className="text-xs text-mist">Decision intelligence · BFSI</p>
@@ -132,12 +133,12 @@ export function ChatbotFallback({
                 type="button"
                 aria-label="Close chat"
                 onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-1 text-mist transition hover:bg-white/5 hover:text-snow"
+                className="rounded-md px-2 py-1 text-mist transition hover:bg-brandWash hover:text-inkStrong"
               >
                 Esc
               </button>
             </header>
-            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto bg-paper px-4 py-4">
               {messages.map((m) => (
                 <div
                   key={m.id}
@@ -146,8 +147,8 @@ export function ChatbotFallback({
                   <div
                     className={`max-w-[85%] rounded-2xl px-3 py-2 leading-relaxed ${
                       m.senderType === 'user'
-                        ? 'bg-electric text-ink'
-                        : 'bg-white/5 text-snow ring-1 ring-white/10'
+                        ? 'bg-brand text-white'
+                        : 'bg-surface text-inkStrong ring-1 ring-line'
                     }`}
                   >
                     {m.messageText}
@@ -156,14 +157,14 @@ export function ChatbotFallback({
               ))}
               {loading && <p className="text-xs text-mist">Thinking…</p>}
             </div>
-            <div className="space-y-2 border-t border-white/10 px-3 py-3">
+            <div className="space-y-2 border-t border-line bg-surface px-3 py-3">
               <div className="flex flex-wrap gap-1.5">
                 {PRESET_CHIPS.map((chip) => (
                   <button
                     key={chip}
                     type="button"
                     onClick={() => void send(chip)}
-                    className="rounded-full border border-electric/35 bg-electric/5 px-2.5 py-1 text-[11px] text-[#B8F7FF] transition hover:bg-electric/15"
+                    className="rounded-full border border-brand/30 bg-brandSoft px-2.5 py-1 text-[11px] text-brand transition hover:bg-brandWash"
                   >
                     {chip}
                   </button>
@@ -183,12 +184,12 @@ export function ChatbotFallback({
                   placeholder="Ask Shanvai…"
                   disabled={loading}
                   aria-label="Message"
-                  className="min-w-0 flex-1 rounded-xl border border-white/10 bg-ink px-3 py-2 text-snow outline-none focus:border-electric/50 focus:ring-2 focus:ring-electric/25"
+                  className="min-w-0 flex-1 rounded-xl border border-line bg-paper px-3 py-2 text-inkStrong outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
                 />
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="rounded-xl bg-electric px-3 py-2 font-medium text-ink disabled:opacity-40"
+                  className="rounded-xl bg-brand px-3 py-2 font-medium text-white disabled:opacity-40"
                 >
                   Send
                 </button>
@@ -204,7 +205,7 @@ export function ChatbotFallback({
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
-        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-electric text-ink shadow-[0_12px_40px_rgba(26,224,255,0.35)]"
+        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-soft"
       >
         <span className="font-display text-lg font-bold">{open ? '×' : 'AI'}</span>
       </motion.button>

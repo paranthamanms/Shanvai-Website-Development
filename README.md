@@ -36,9 +36,10 @@ Analytics / Lead API (services/analytics-lead)  →  PostgreSQL
 # 1. Install dependencies (from repo root)
 npm install
 
-# 2. Start Postgres and apply schema
+# 2. Start Postgres and apply schema (host port 5433 → container 5432)
 npm run db:up
 # Schema auto-loads via docker-entrypoint-initdb.d on first boot
+# Note: uses 5433 so it does not conflict with a local Postgres on 5432
 
 # 3. Configure API
 cp services/analytics-lead/.env.example services/analytics-lead/.env
@@ -75,13 +76,31 @@ npm run stack:up
 
 AI responses default to a **stub rule engine**. Set `AI_PROVIDER=openai` or `gemini` with the matching API key for live models.
 
-## Production notes
+## Production (www.shanvai.com — one container)
 
-- Host MFEs and API on AWS ECS / EKS
-- Use RDS or Supabase for PostgreSQL
-- Place Kong (or equivalent) in front of microservices as the API gateway
-- Point `NEXT_PUBLIC_CHATBOT_REMOTE_URL` at the published chatbot `remoteEntry.js`
+GitHub: https://github.com/paranthamanms/Shanvai-Website-Development
+
+Same AWS account as Credit Bureau is **fine** when Shanvai is isolated (`shanvai-*` prefix, own CloudFront/ALB/ECS). Details: [docs/AWS-COEXISTENCE.md](docs/AWS-COEXISTENCE.md).
+
+```bash
+# Build & smoke-test the single website container
+docker build -t shanvai/www:local -f Dockerfile .
+docker compose -f docker-compose.web.yml up --build
+# http://localhost:3080
+```
+
+Terraform scaffold: `infrastructure/terraform/web/` (ECS/ALB/CloudFront wiring next).
+
+## Key API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/v1/leads` | Enterprise demo inquiry (Zod-validated) |
+| `POST` | `/api/v1/chat/message` | Chatbot turn + Postgres history |
+| `GET` | `/api/v1/health` | API + DB health |
+
+AI responses default to a **stub rule engine**. Set `AI_PROVIDER=openai` or `gemini` with the matching API key for live models.
 
 ## Brand
 
-Dark deep-tech UI with electric cyan accents (`#1AE0FF`), Space Grotesk + IBM Plex Sans.
+Light enterprise UI — logo sky (`#0284C7`), slate neutrals, Space Grotesk + IBM Plex Sans.

@@ -3,9 +3,14 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  --electric: #1ae0ff;
-  --ink: #070b14;
+  color-scheme: light;
+  --brand: #0284c7;
+  --brand-hover: #0369a1;
+  --ink: #475569;
+  --ink-strong: #1e293b;
+  --canvas: #f8fafc;
+  --line: #e2e8f0;
+  --header-h: 4rem;
 }
 
 html {
@@ -13,20 +18,56 @@ html {
 }
 
 body {
-  background: var(--ink);
-  color: #e8eef7;
+  background: #ffffff;
+  color: var(--ink);
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: rgba(26, 224, 255, 0.35);
-  color: #fff;
+  background: rgba(2, 132, 199, 0.18);
+  color: var(--ink-strong);
+}
+
+@layer components {
+  .site-container {
+    @apply mx-auto w-full max-w-content px-6;
+  }
+
+  .section-pad {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .section-eyebrow {
+    @apply font-display text-sm font-semibold uppercase tracking-[0.16em] text-brand;
+  }
+
+  .section-title {
+    @apply font-display text-display-md text-inkStrong sm:text-display-lg;
+  }
+
+  .section-lead {
+    @apply mt-4 text-base leading-relaxed text-mist sm:text-lg;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brandHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border border-line bg-white px-5 py-2.5 text-sm font-semibold text-inkStrong transition hover:border-brand/30 hover:bg-brandSoft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand;
+  }
+
+  .field-input {
+    @apply w-full rounded-md border border-line bg-white px-3.5 py-2.5 text-sm text-inkStrong outline-none transition placeholder:text-mist/70 focus:border-brand focus:ring-2 focus:ring-brand/15;
+  }
 }
 
 @keyframes pulse-line {
   0%,
   100% {
-    opacity: 0.35;
-    transform: scaleX(0.92);
+    opacity: 0.4;
+    transform: scaleX(0.9);
   }
   50% {
     opacity: 1;
@@ -40,17 +81,64 @@ body {
 }
 
 @keyframes drift {
-  0% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
+    transform: translateY(-8px);
   }
 }
 
 .animate-drift {
-  animation: drift 7s ease-in-out infinite;
+  animation: drift 8s ease-in-out infinite;
+}
+
+@keyframes demo-scan {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+}
+
+.animate-demo-scan {
+  animation: demo-scan 4.5s ease-in-out infinite;
+}
+
+@keyframes demo-bar {
+  0%,
+  100% {
+    width: 42%;
+  }
+  50% {
+    width: 88%;
+  }
+}
+
+.animate-demo-bar {
+  animation: demo-bar 3.2s ease-in-out infinite;
+}
+
+@keyframes demo-pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.animate-demo-pulse {
+  animation: demo-pulse-dot 1.8s ease-in-out infinite;
 }

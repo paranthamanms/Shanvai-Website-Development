@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 260" aria-hidden="true">
+  <defs>
+    <linearGradient id="shanGradBright" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7DD3FC"/>
+      <stop offset="40%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <filter id="sForward" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#7DD3FC" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g opacity="0.22">
+    <rect x="78" y="102" width="164" height="14" rx="2" fill="#0369A1"/>
+    <rect x="148" y="102" width="24" height="88" rx="2" fill="#0369A1"/>
+  </g>
+  <g filter="url(#sForward)">
+    <path fill="url(#shanGradBright)" d="M 48, 48 C 48, 48  92, 32  142, 44 C 192, 56  218, 86  212, 118 C 206, 150  168, 162  128, 152 C 88, 142  68, 158  72, 188 C 76, 218  118, 238  168, 224 C 218, 210  242, 172  234, 128 C 222, 78  168, 58  108, 68 C 64, 76  42, 92  48, 48 Z"/>
+  </g>
+  <path fill="none" stroke="#050811" stroke-width="2" stroke-linecap="round" opacity="0.85" d="M 62,62 C 100,48 155,58 198,78"/>
+  <path fill="none" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" opacity="0.75" d="M 88,210 C 125,232 185,218 220,178"/>
+</svg>

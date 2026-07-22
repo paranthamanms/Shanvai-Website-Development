@@ -1,41 +1,43 @@
-const products = [
-  {
-    name: 'Shanvai Decision Core',
-    blurb:
-      'Real-time policy orchestration, risk scoring, and explainable outcomes across lending, onboarding, and fraud workflows.',
-  },
-  {
-    name: 'Shanvai Credit Bureau',
-    blurb:
-      'Multi-source credit intelligence with resilient ingestion pipelines and partner-ready bureau analytics APIs.',
-  },
-  {
-    name: 'Enterprise Partnerships',
-    blurb:
-      'Pilot programs, co-built decision journeys, and integration support for banks, NBFCs, and regulated fintechs.',
-  },
-];
+import Link from 'next/link';
+import { PRODUCTS } from '@/data/products';
 
-export function ProductShowcase() {
+type ProductShowcaseProps = {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+};
+
+export function ProductShowcase({
+  id = 'products',
+  eyebrow = 'Products',
+  title = 'Platforms built for regulated decisioning',
+  subtitle =
+    'Decision, bureau, AIOps, and partnership capabilities — designed for institutions that ship under scrutiny.',
+}: ProductShowcaseProps) {
   return (
-    <section id="products" className="mx-auto max-w-6xl px-6 py-24">
-      <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-electric">
-        Products
-      </p>
-      <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold text-snow sm:text-4xl">
-        Platforms built for regulated decisioning
-      </h2>
-      <p className="mt-4 max-w-2xl text-mist">
-        One composition of decision, bureau, and partnership capabilities — designed for institutions
-        that ship under scrutiny.
-      </p>
-      <div className="mt-14 grid gap-10 md:grid-cols-3">
-        {products.map((p) => (
-          <article key={p.name} className="border-t border-electric/30 pt-6">
-            <h3 className="font-display text-xl font-semibold text-snow">{p.name}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-mist">{p.blurb}</p>
-          </article>
-        ))}
+    <section id={id} className="section-pad bg-white">
+      <div className="site-container">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="section-eyebrow">{eyebrow}</p>
+          <h2 className="section-title mt-3">{title}</h2>
+          <p className="section-lead">{subtitle}</p>
+        </div>
+
+        <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2">
+          {PRODUCTS.map((p) => (
+            <article key={p.name} className="border-t border-line pt-6 text-left">
+              <h3 className="font-display text-xl font-semibold text-inkStrong">{p.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-mist sm:text-base">{p.blurb}</p>
+              <Link
+                href="/#contact"
+                className="mt-4 inline-flex text-sm font-semibold text-brand transition hover:text-brandHover"
+              >
+                Request a demo →
+              </Link>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

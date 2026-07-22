@@ -7,14 +7,11 @@ const badges = [
 
 export function TrustBadges() {
   return (
-    <section className="border-y border-white/10 bg-abyss/80" aria-label="Trust signals">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
+    <section className="border-y border-line bg-canvas" aria-label="Trust signals">
+      <div className="site-container flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-5">
         {badges.map((badge) => (
-          <p
-            key={badge}
-            className="flex items-center gap-2 text-sm text-mist"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-electric" aria-hidden />
+          <p key={badge} className="flex items-center gap-2 text-sm text-mist">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
             {badge}
           </p>
         ))}

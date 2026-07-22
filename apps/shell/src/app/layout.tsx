@@ -20,13 +20,13 @@ const body = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: 'Shanvai Technologies | Decision Intelligence for BFSI',
   description:
-    'Shanvai Technologies builds Decision Core and Credit Bureau platforms for banks, NBFCs, and fintech institutions.',
+    'Shanvai Technologies builds Decision Core, Credit Bureau, and AIOps platforms for banks, NBFCs, and fintech institutions.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body className="min-h-screen bg-ink font-body antialiased">
+      <body className="min-h-screen bg-white font-body text-ink antialiased">
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

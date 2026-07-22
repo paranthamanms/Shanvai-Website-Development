@@ -16,7 +16,7 @@ export const env = {
   port: Number(process.env.PORT ?? 4000),
   databaseUrl: required(
     'DATABASE_URL',
-    'postgresql://shanvai:shanvai@localhost:5432/shanvai'
+    'postgresql://shanvai:shanvai@localhost:5433/shanvai'
   ),
   corsOrigins: (process.env.CORS_ORIGINS ?? 'http://localhost:3000')
     .split(',')

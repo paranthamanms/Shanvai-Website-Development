@@ -1,0 +1,8 @@
+aws_region   = "ap-south-1"
+aws_profile  = "credit-bureau-dev"
+environment  = "prod"
+project_name = "shanvai"
+domain_name  = "www.shanvai.com"
+apex_domain  = "shanvai.com"
+desired_count = 1
+# container_image = "<account>.dkr.ecr.ap-south-1.amazonaws.com/shanvai/www@sha256:..."

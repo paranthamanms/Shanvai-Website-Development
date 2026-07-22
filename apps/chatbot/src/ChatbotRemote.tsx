@@ -14,6 +14,7 @@ interface UiMessage {
 const PRESET_CHIPS = [
   'What is Shanvai Decision Core?',
   'Tell me about Shanvai Credit Bureau',
+  'What is Shanvai AIOps?',
   'How can BFSI institutions partner?',
 ];
 
@@ -140,26 +141,26 @@ export default function ChatbotRemote({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-            className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0E1628] shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+            className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-[#CDE3F2] bg-white shadow-[0_18px_50px_rgba(43,156,217,0.12)]"
           >
-            <header className="flex items-center justify-between border-b border-white/10 bg-[#0A1220] px-4 py-3">
+            <header className="flex items-center justify-between border-b border-[#CDE3F2] bg-[#E8F6FC] px-4 py-3">
               <div>
-                <p id={titleId} className="font-display text-base font-semibold text-white">
+                <p id={titleId} className="font-display text-base font-semibold text-[#2F4A63]">
                   Shanvai Assistant
                 </p>
-                <p className="text-xs text-[#9BB0C9]">Decision intelligence · BFSI</p>
+                <p className="text-xs text-[#6D8AA3]">Decision intelligence · BFSI</p>
               </div>
               <button
                 type="button"
                 aria-label="Close chat"
                 onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-1 text-[#9BB0C9] transition hover:bg-white/5 hover:text-white"
+                className="rounded-md px-2 py-1 text-[#6D8AA3] transition hover:bg-[#D4EEF9] hover:text-[#2F4A63]"
               >
                 Esc
               </button>
             </header>
 
-            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto bg-[#F5FAFE] px-4 py-4">
               {messages.map((m) => (
                 <div
                   key={m.id}
@@ -168,8 +169,8 @@ export default function ChatbotRemote({
                   <div
                     className={`max-w-[85%] rounded-2xl px-3 py-2 leading-relaxed ${
                       m.senderType === 'user'
-                        ? 'bg-[#1AE0FF] text-[#041018]'
-                        : 'bg-white/5 text-[#E8EEF7] ring-1 ring-white/10'
+                        ? 'bg-[#0284C7] text-white'
+                        : 'bg-white text-[#2F4A63] ring-1 ring-[#CDE3F2]'
                     }`}
                   >
                     {m.messageText}
@@ -177,25 +178,25 @@ export default function ChatbotRemote({
                 </div>
               ))}
               {loading && (
-                <p className="text-xs text-[#9BB0C9]" aria-live="polite">
+                <p className="text-xs text-[#6D8AA3]" aria-live="polite">
                   Thinking…
                 </p>
               )}
               {error && (
-                <p className="text-xs text-red-300" role="alert">
+                <p className="text-xs text-red-500" role="alert">
                   {error}
                 </p>
               )}
             </div>
 
-            <div className="space-y-2 border-t border-white/10 px-3 py-3">
+            <div className="space-y-2 border-t border-[#CDE3F2] bg-white px-3 py-3">
               <div className="flex flex-wrap gap-1.5">
                 {PRESET_CHIPS.map((chip) => (
                   <button
                     key={chip}
                     type="button"
                     onClick={() => send(chip)}
-                    className="rounded-full border border-[#1AE0FF]/35 bg-[#1AE0FF]/5 px-2.5 py-1 text-[11px] text-[#B8F7FF] transition hover:border-[#1AE0FF]/70 hover:bg-[#1AE0FF]/15"
+                    className="rounded-full border border-[#0284C7]/30 bg-[#F0F9FF] px-2.5 py-1 text-[11px] text-[#0284C7] transition hover:bg-[#E0F2FE]"
                   >
                     {chip}
                   </button>
@@ -218,12 +219,12 @@ export default function ChatbotRemote({
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask Shanvai…"
                   disabled={loading}
-                  className="min-w-0 flex-1 rounded-xl border border-white/10 bg-[#070B14] px-3 py-2 text-[#E8EEF7] outline-none ring-[#1AE0FF]/0 transition placeholder:text-[#6B7F99] focus:border-[#1AE0FF]/50 focus:ring-2 focus:ring-[#1AE0FF]/25"
+                  className="min-w-0 flex-1 rounded-xl border border-[#CDE3F2] bg-[#F5FAFE] px-3 py-2 text-[#2F4A63] outline-none transition placeholder:text-[#6D8AA3] focus:border-[#2B9CD9] focus:ring-2 focus:ring-[#2B9CD9]/20"
                 />
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="rounded-xl bg-[#1AE0FF] px-3 py-2 font-medium text-[#041018] transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-xl bg-[#0284C7] px-3 py-2 font-medium text-white transition enabled:hover:bg-[#0369A1] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Send
                 </button>
@@ -241,7 +242,7 @@ export default function ChatbotRemote({
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
-        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1AE0FF] text-[#041018] shadow-[0_12px_40px_rgba(26,224,255,0.35)]"
+        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#2B9CD9] text-white shadow-[0_12px_40px_rgba(43,156,217,0.35)]"
       >
         <span className="font-display text-lg font-bold">{open ? '×' : 'AI'}</span>
       </motion.button>

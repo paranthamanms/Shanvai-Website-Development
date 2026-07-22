@@ -15,6 +15,11 @@ const RULE_RESPONSES: Array<{ match: RegExp; reply: string }> = [
       'Shanvai Credit Bureau delivers multi-source credit intelligence with ingestion pipelines, bureau analytics, and partner-ready APIs so institutions can underwrite with higher confidence.',
   },
   {
+    match: /aiops|ai\s*ops|operations/i,
+    reply:
+      'Shanvai AIOps brings intelligent operations to BFSI platforms — anomaly detection, runbook automation, service-health insights, and AI-assisted incident response so Decision Core and Credit Bureau stay reliable at scale.',
+  },
+  {
     match: /partner|bfsi|institut/i,
     reply:
       'BFSI institutions partner with Shanvai through API integration, pilot programs, and co-built decision journeys. Share your corporate email via the contact form and our solutions team will follow up.',
@@ -22,7 +27,7 @@ const RULE_RESPONSES: Array<{ match: RegExp; reply: string }> = [
 ];
 
 const DEFAULT_REPLY =
-  'Thanks for reaching out to Shanvai Technologies. Ask about Decision Core, Credit Bureau, or BFSI partnerships — or leave your details on the contact form for a tailored demo.';
+  'Thanks for reaching out to Shanvai Technologies. Ask about Decision Core, Credit Bureau, AIOps, or BFSI partnerships — or leave your details on the contact form for a tailored demo.';
 
 async function getOrCreateSession(sessionToken?: string): Promise<ChatSession> {
   if (sessionToken) {
