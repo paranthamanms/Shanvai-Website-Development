@@ -48,7 +48,7 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_security_group" "alb" {
   name_prefix = "${local.name_prefix}-alb-"
-  description = "ALB — CloudFront origin-facing only"
+  description = "ALB - CloudFront origin-facing only"
   vpc_id      = aws_vpc.this.id
 
   ingress {
@@ -75,7 +75,7 @@ resource "aws_security_group" "alb" {
 
 resource "aws_security_group" "ecs" {
   name_prefix = "${local.name_prefix}-ecs-"
-  description = "ECS tasks — traffic from ALB only"
+  description = "ECS tasks - traffic from ALB only"
   vpc_id      = aws_vpc.this.id
 
   ingress {
