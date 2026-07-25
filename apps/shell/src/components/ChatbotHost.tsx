@@ -19,10 +19,10 @@ export function ChatbotHost() {
   useEffect(() => {
     let cancelled = false;
 
-    async function loadRemote() {
+    async function loadRemoteModule() {
       try {
-        const { createInstance } = await import('@module-federation/runtime');
-        const instance = createInstance({
+        const { init, loadRemote } = await import('@module-federation/runtime');
+        init({
           name: 'shanvaiShell',
           remotes: [
             {
@@ -32,7 +32,7 @@ export function ChatbotHost() {
             },
           ],
         });
-        const mod = (await instance.loadRemote('shanvaiChatbot/ChatbotRemote')) as {
+        const mod = (await loadRemote('shanvaiChatbot/ChatbotRemote')) as {
           default: ComponentType<ChatbotProps>;
         } | null;
         if (!cancelled && mod?.default) {
@@ -43,7 +43,7 @@ export function ChatbotHost() {
       }
     }
 
-    void loadRemote();
+    void loadRemoteModule();
     return () => {
       cancelled = true;
     };
