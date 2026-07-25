@@ -80,3 +80,15 @@ variable "github_branch" {
   type    = string
   default = "main"
 }
+
+# Required when the GitHub org customizes OIDC subjects with numeric IDs
+# (repo:ORG@OWNER_ID/REPO@REPO_ID:...). From: gh api repos/ORG/REPO --jq '{owner_id:.owner.id,id}'
+variable "github_owner_id" {
+  type        = string
+  description = "GitHub owner/user numeric ID for OIDC sub claims"
+}
+
+variable "github_repo_id" {
+  type        = string
+  description = "GitHub repository numeric ID for OIDC sub claims"
+}

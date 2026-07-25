@@ -19,3 +19,6 @@ monthly_budget_usd = 50
 github_org    = "paranthamanms"
 github_repo   = "Shanvai-Website-Development"
 github_branch = "main"
+# gh api repos/paranthamanms/Shanvai-Website-Development --jq '{owner_id:.owner.id,id}'
+github_owner_id = "9374992"
+github_repo_id  = "1307244798"

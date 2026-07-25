@@ -11,8 +11,9 @@ RUN npm ci
 
 FROM node:20-alpine AS builder
 WORKDIR /app
+# npm workspaces hoist packages to the repo root — no per-app node_modules
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/shell/node_modules ./apps/shell/node_modules
+COPY --from=deps /app/package.json /app/package-lock.json ./
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
