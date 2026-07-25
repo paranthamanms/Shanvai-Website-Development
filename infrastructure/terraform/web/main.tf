@@ -1,12 +1,3 @@
-# Shanvai Technologies — website hosting (www.shanvai.com)
-# Same AWS account as Credit Bureau, isolated project prefix.
-#
-# Intended shape:
-#   Route53 www.shanvai.com → CloudFront (ACM) → ALB → ECS Fargate (1 task)
-#
-# Apply from this directory after filling terraform.tfvars.
-# Do NOT reuse credit-bureau-dev VPC/cluster/ALB without an explicit decision.
-
 terraform {
   required_version = ">= 1.6.0"
   required_providers {
@@ -16,11 +7,12 @@ terraform {
     }
   }
 
-  # Prefer a dedicated state key (example):
+  # Uncomment after first local apply if you want remote state in the shared account bucket:
   # backend "s3" {
-  #   bucket = "<account>-tfstate"
-  #   key    = "shanvai/web/terraform.tfstate"
-  #   region = "ap-south-1"
+  #   bucket  = "<fill-from-cb-bootstrap>"
+  #   key     = "shanvai/prod/web/terraform.tfstate"
+  #   region  = "ap-south-1"
+  #   profile = "credit-bureau-dev"
   # }
 }
 
@@ -29,89 +21,49 @@ provider "aws" {
   profile = var.aws_profile
 
   default_tags {
-    tags = {
-      Project     = "shanvai"
-      Environment = var.environment
-      Component   = "website"
-      ManagedBy   = "Terraform"
-      Repository  = "Shanvai-Website-Development"
-    }
+    tags = local.common_tags
   }
 }
 
-# CloudFront custom certs must be in us-east-1
 provider "aws" {
   alias   = "us_east_1"
   region  = "us-east-1"
   profile = var.aws_profile
+
+  default_tags {
+    tags = local.common_tags
+  }
 }
 
-variable "aws_region" {
-  type    = string
-  default = "ap-south-1"
+data "aws_caller_identity" "current" {}
+data "aws_availability_zones" "available" {
+  state = "available"
 }
 
-variable "aws_profile" {
-  type    = string
-  default = "credit-bureau-dev"
-  description = "SSO profile for the shared Credit Bureau AWS account"
+data "aws_ec2_managed_prefix_list" "cloudfront" {
+  name = "com.amazonaws.global.cloudfront.origin-facing"
 }
 
-variable "environment" {
-  type    = string
-  default = "prod"
-}
-
-variable "project_name" {
-  type    = string
-  default = "shanvai"
-}
-
-variable "domain_name" {
-  type    = string
-  default = "www.shanvai.com"
-}
-
-variable "apex_domain" {
-  type    = string
-  default = "shanvai.com"
-}
-
-variable "container_image" {
-  type        = string
-  description = "ECR image URI with digest or tag, e.g. <account>.dkr.ecr.ap-south-1.amazonaws.com/shanvai/www@sha256:..."
-  default     = ""
-}
-
-variable "desired_count" {
-  type    = number
-  default = 1
+# Reuse the account GitHub OIDC provider created by Credit Bureau (one per account).
+data "aws_iam_openid_connect_provider" "github" {
+  url = "https://token.actions.githubusercontent.com"
 }
 
 locals {
   name_prefix = "${var.project_name}-${var.environment}-web"
-}
+  # Distinct from Credit Bureau 10.40.0.0/16
+  vpc_cidr    = var.vpc_cidr
+  azs         = slice(data.aws_availability_zones.available.names, 0, 2)
 
-output "guidance" {
-  value = <<-EOT
-    Scaffold only — wire networking/ECS/ALB/CloudFront modules next.
+  common_tags = {
+    Project     = "shanvai"
+    Environment = var.environment
+    Component   = "website"
+    ManagedBy   = "Terraform"
+    Repository  = "Shanvai-Website-Development"
+    CostCenter  = "shanvai-web"
+  }
 
-    Coexistence rules (same AWS account as Credit Bureau):
-    1. Use name_prefix=${local.name_prefix} and tags Project=shanvai (never credit-bureau-*).
-    2. Prefer a dedicated VPC/CIDR (do not share 10.40.0.0/16 credit-bureau-dev VPC).
-    3. Own ECS cluster + ALB + CloudFront for ${var.domain_name}.
-    4. ECR repository: shanvai/www (not credit-bureau/*).
-    5. ACM certificate for CloudFront in us-east-1; Route53 alias A/AAAA for ${var.domain_name}.
-    6. One Fargate task (desired_count=${var.desired_count}) serving the Next.js container on :3000.
-
-    AWS profile default: ${var.aws_profile} / region ${var.aws_region}
-  EOT
-}
-
-output "name_prefix" {
-  value = local.name_prefix
-}
-
-output "domain_name" {
-  value = var.domain_name
+  # Use digest/tag from variable; empty means service stays at desired_count=0 until first image push.
+  has_image = var.container_image != ""
 }

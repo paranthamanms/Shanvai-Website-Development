@@ -1,0 +1,108 @@
+name: Deploy www.shanvai.com
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/shell/**"
+      - "package.json"
+      - "package-lock.json"
+      - "Dockerfile"
+      - ".github/workflows/deploy-www.yml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: shanvai/www
+  ECS_CLUSTER: shanvai-prod-web-cluster
+  ECS_SERVICE: shanvai-prod-web-www
+  CONTAINER_NAME: www
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push image
+        id: build
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          IMAGE_URI="$REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          LATEST_URI="$REGISTRY/$ECR_REPOSITORY:latest"
+          docker build -t "$IMAGE_URI" -t "$LATEST_URI" -f Dockerfile .
+          docker push "$IMAGE_URI"
+          docker push "$LATEST_URI"
+          echo "image=$IMAGE_URI" >> "$GITHUB_OUTPUT"
+
+      - name: Render new task definition
+        id: task-def
+        run: |
+          TASK_ARN=$(aws ecs describe-services \
+            --cluster "$ECS_CLUSTER" \
+            --services "$ECS_SERVICE" \
+            --query 'services[0].taskDefinition' \
+            --output text)
+          aws ecs describe-task-definition \
+            --task-definition "$TASK_ARN" \
+            --query 'taskDefinition' > /tmp/td.json
+          python3 <<'PY'
+          import json, os
+          image = os.environ["IMAGE_URI"]
+          with open("/tmp/td.json") as f:
+              td = json.load(f)
+          for key in ["taskDefinitionArn", "revision", "status", "requiresAttributes",
+                      "compatibilities", "registeredAt", "registeredBy"]:
+              td.pop(key, None)
+          for c in td["containerDefinitions"]:
+              if c["name"] == os.environ["CONTAINER_NAME"]:
+                  c["image"] = image
+          with open("/tmp/td-new.json", "w") as f:
+              json.dump(td, f)
+          PY
+        env:
+          IMAGE_URI: ${{ steps.build.outputs.image }}
+          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+
+      - name: Register and update ECS service
+        run: |
+          NEW_TD=$(aws ecs register-task-definition \
+            --cli-input-json file:///tmp/td-new.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --task-definition "$NEW_TD" \
+            --desired-count 1 \
+            --force-new-deployment
+
+      - name: Invalidate CloudFront (optional)
+        env:
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          if [ -n "$DISTRIBUTION_ID" ]; then
+            aws cloudfront create-invalidation \
+              --distribution-id "$DISTRIBUTION_ID" \
+              --paths "/*"
+          else
+            echo "CLOUDFRONT_DISTRIBUTION_ID not set — skip invalidation"
+          fi

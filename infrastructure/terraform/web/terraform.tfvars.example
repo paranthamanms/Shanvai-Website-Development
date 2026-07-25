@@ -4,5 +4,18 @@ environment  = "prod"
 project_name = "shanvai"
 domain_name  = "www.shanvai.com"
 apex_domain  = "shanvai.com"
-desired_count = 1
-# container_image = "<account>.dkr.ecr.ap-south-1.amazonaws.com/shanvai/www@sha256:..."
+vpc_cidr     = "10.50.0.0/16"
+
+# Leave empty on first apply (ECS desired_count=0). After GH Action pushes an image, set e.g.:
+# container_image = "<account>.dkr.ecr.ap-south-1.amazonaws.com/shanvai/www:latest"
+container_image = ""
+
+desired_count     = 1
+task_cpu          = 256
+task_memory       = 512
+monthly_budget_usd = 50
+# budget_email = "you@example.com"
+
+github_org    = "paranthamanms"
+github_repo   = "Shanvai-Website-Development"
+github_branch = "main"

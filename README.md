@@ -27,6 +27,7 @@ Analytics / Lead API (services/analytics-lead)  →  PostgreSQL
 | `Dockerfile` | **Single production container** for `www.shanvai.com` |
 | `infrastructure/terraform/web/` | AWS scaffold (same account as Credit Bureau, isolated prefix) |
 | `docs/AWS-COEXISTENCE.md` | Coexistence guidance vs Credit Bureau |
+| `docs/DEPLOY-WWW.md` | PROD deploy: Squarespace DNS, Terraform, GitHub Actions |
 
 ## Quick start (local)
 
@@ -46,7 +47,10 @@ docker compose -f docker-compose.web.yml up --build
 # http://localhost:3080
 ```
 
-Same AWS account as Credit Bureau is effective when Shanvai is a parallel stack (`shanvai-*`). See [docs/AWS-COEXISTENCE.md](docs/AWS-COEXISTENCE.md).
+- Coexistence: [docs/AWS-COEXISTENCE.md](docs/AWS-COEXISTENCE.md)
+- Deploy (Squarespace DNS + Terraform + GitHub OIDC): [docs/DEPLOY-WWW.md](docs/DEPLOY-WWW.md)
+
+PROD stack: new VPC `10.50.0.0/16`, ECS Fargate ×1, ALB, CloudFront, ECR `shanvai/www`, profile `credit-bureau-dev`, region `ap-south-1`.
 
 ## Key API endpoints
 
