@@ -88,16 +88,21 @@ export function DemoVideo() {
         </div>
 
         {mode === 'video' ? (
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            {demos.map((demo) => (
-              <ExpandableSpotlight
-                key={demo.id}
-                src={demo.videoSrc}
-                poster={demo.posterSrc}
-                title={demo.title}
-                subtitle={demo.subtitle}
-              />
-            ))}
+          <div className="mt-10">
+            <p className="mb-4 text-center font-display text-sm font-semibold uppercase tracking-[0.16em] text-brandMuted">
+              Highlighted by Shanvai
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+              {demos.map((demo) => (
+                <ExpandableSpotlight
+                  key={demo.id}
+                  src={demo.videoSrc}
+                  poster={demo.posterSrc}
+                  title={demo.title}
+                  subtitle={demo.subtitle}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">

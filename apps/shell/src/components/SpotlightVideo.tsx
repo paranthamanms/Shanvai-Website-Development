@@ -74,7 +74,7 @@ export function ExpandableSpotlight({ src, poster, title, subtitle }: Expandable
   return (
     <>
       <article className="flex flex-col overflow-hidden rounded-lg border border-line bg-white shadow-lift">
-        <SpotlightVideo src={src} poster={poster} title={title} compact />
+        <SpotlightVideo src={src} poster={poster} title={title} compact showBadge={false} />
         <div className="flex flex-1 flex-col p-3 sm:p-4">
           <h3 className="font-display text-sm font-semibold leading-snug text-inkStrong sm:text-base">
             {title}
@@ -115,7 +115,13 @@ export function ExpandableSpotlight({ src, poster, title, subtitle }: Expandable
                 Close
               </button>
             </div>
-            <SpotlightVideo src={src} poster={poster} title={title} showBadge className="border-white/10" />
+            <SpotlightVideo
+              src={src}
+              poster={poster}
+              title={title}
+              showBadge={false}
+              className="border-white/10"
+            />
           </div>
         </div>
       )}
