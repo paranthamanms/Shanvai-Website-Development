@@ -21,7 +21,13 @@ const SECTORS = [
   'Other BFSI',
 ];
 
-export function ContactForm() {
+type ContactFormProps = {
+  /** When true, omit the full-page section chrome (for /contact layout). */
+  embedded?: boolean;
+  id?: string;
+};
+
+export function ContactForm({ embedded = false, id = 'contact' }: ContactFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -68,8 +74,76 @@ export function ContactForm() {
     }
   }
 
+  const form = (
+    <form onSubmit={onSubmit} className="space-y-4" noValidate>
+      <Field label="Full name" name="fullName" error={fieldErrors.fullName} required />
+      <Field
+        label="Corporate email"
+        name="corporateEmail"
+        type="email"
+        error={fieldErrors.corporateEmail}
+        required
+      />
+      <div>
+        <label htmlFor="industrySector" className="mb-1.5 block text-sm font-medium text-ink">
+          Industry sector
+        </label>
+        <select
+          id="industrySector"
+          name="industrySector"
+          required
+          defaultValue=""
+          className="field-input"
+        >
+          <option value="" disabled>
+            Select sector
+          </option>
+          {SECTORS.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+        {fieldErrors.industrySector && (
+          <p className="mt-1 text-sm text-red-500">{fieldErrors.industrySector}</p>
+        )}
+      </div>
+      <div>
+        <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-ink">
+          Message
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={4}
+          className="field-input"
+          placeholder="What are you looking to evaluate?"
+        />
+      </div>
+
+      <button type="submit" disabled={status === 'loading'} className="btn-primary disabled:opacity-50">
+        {status === 'loading' ? 'Submitting…' : 'Submit inquiry'}
+      </button>
+
+      {status === 'success' && (
+        <p className="text-sm text-brand" role="status">
+          Thank you — your inquiry has been received.
+        </p>
+      )}
+      {error && (
+        <p className="text-sm text-red-500" role="alert">
+          {error}
+        </p>
+      )}
+    </form>
+  );
+
+  if (embedded) {
+    return <div id={id}>{form}</div>;
+  }
+
   return (
-    <section id="contact" className="section-pad bg-white">
+    <section id={id} className="section-pad bg-white">
       <div className="site-container">
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <p className="section-eyebrow">Contact</p>
@@ -79,68 +153,7 @@ export function ContactForm() {
             Decision Core, Credit Bureau, or AIOps walkthrough.
           </p>
         </div>
-
-        <form onSubmit={onSubmit} className="mx-auto max-w-lg space-y-4" noValidate>
-          <Field label="Full name" name="fullName" error={fieldErrors.fullName} required />
-          <Field
-            label="Corporate email"
-            name="corporateEmail"
-            type="email"
-            error={fieldErrors.corporateEmail}
-            required
-          />
-          <div>
-            <label htmlFor="industrySector" className="mb-1.5 block text-sm font-medium text-ink">
-              Industry sector
-            </label>
-            <select
-              id="industrySector"
-              name="industrySector"
-              required
-              defaultValue=""
-              className="field-input"
-            >
-              <option value="" disabled>
-                Select sector
-              </option>
-              {SECTORS.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-            {fieldErrors.industrySector && (
-              <p className="mt-1 text-sm text-red-500">{fieldErrors.industrySector}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-ink">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              className="field-input"
-              placeholder="What are you looking to evaluate?"
-            />
-          </div>
-
-          <button type="submit" disabled={status === 'loading'} className="btn-primary disabled:opacity-50">
-            {status === 'loading' ? 'Submitting…' : 'Submit inquiry'}
-          </button>
-
-          {status === 'success' && (
-            <p className="text-sm text-brand" role="status">
-              Thank you — your inquiry has been received.
-            </p>
-          )}
-          {error && (
-            <p className="text-sm text-red-500" role="alert">
-              {error}
-            </p>
-          )}
-        </form>
+        <div className="mx-auto max-w-lg">{form}</div>
       </div>
     </section>
   );

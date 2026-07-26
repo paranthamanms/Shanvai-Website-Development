@@ -6,37 +6,43 @@ import { PresenceGlobeMenu } from './PresenceGlobeMenu';
 
 const links = [
   { href: '/#products', label: 'Products' },
+  { href: '/trending', label: 'Trending' },
   { href: '/#demo', label: 'Demo' },
-  { href: '/#contact', label: 'Contact' },
+  { href: '/contact', label: 'Contact' },
 ];
 
+/** Match hero brand lockup: Space Grotesk semibold + same logo scale */
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-line bg-white/95 backdrop-blur-md">
-      <div className="site-container flex h-full items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5">
-          <BrandLogo size={32} priority decorative />
-          <span className="font-display text-lg font-semibold tracking-tight text-inkStrong">
-            Shanvai
+    <header className="fixed inset-x-0 top-0 z-50 h-[4.25rem] border-b border-line bg-white/95 backdrop-blur-md">
+      <div className="site-container flex h-full items-center justify-between gap-4">
+        <Link href="/" className="inline-flex min-w-0 items-center gap-3">
+          <BrandLogo size={36} priority decorative className="shrink-0" />
+          <span className="font-display text-xl font-semibold tracking-tight text-inkStrong sm:text-2xl sm:text-[1.75rem]">
+            <span className="sm:hidden">Shanvai</span>
+            <span className="hidden sm:inline">Shanvai Technologies</span>
           </span>
         </Link>
 
-        <nav className="flex items-center gap-4 md:gap-5" aria-label="Primary">
-          <div className="hidden items-center gap-6 md:flex">
+        <nav className="flex shrink-0 items-center gap-2 md:gap-4" aria-label="Primary">
+          <div className="hidden items-center gap-5 lg:flex xl:gap-6">
             {links.map((l) => (
-              <a
+              <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm font-medium text-ink transition hover:text-brand"
+                className="font-display text-base font-semibold tracking-tight text-inkStrong transition hover:text-brand"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
           </div>
           <PresenceGlobeMenu />
-          <a href="/#contact" className="btn-primary hidden sm:inline-flex">
+          <Link
+            href="/contact"
+            className="btn-primary hidden font-display sm:inline-flex"
+          >
             Request demo
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

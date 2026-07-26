@@ -2,7 +2,8 @@ import { Hero } from '@/components/Hero';
 import { TrustBadges } from '@/components/TrustBadges';
 import { ProductShowcase } from '@/components/ProductShowcase';
 import { DemoVideo } from '@/components/DemoVideo';
-import { ContactForm } from '@/components/ContactForm';
+import { LatestContent } from '@/components/LatestContent';
+import { HomeContact } from '@/components/HomeContact';
 import { GlobalPresence } from '@/components/GlobalPresence';
 
 export default function HomePage() {
@@ -13,7 +14,8 @@ export default function HomePage() {
       <ProductShowcase />
       <GlobalPresence />
       <DemoVideo />
-      <ContactForm />
+      <LatestContent />
+      <HomeContact />
     </>
   );
 }

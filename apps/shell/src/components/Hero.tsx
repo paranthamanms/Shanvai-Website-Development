@@ -5,7 +5,7 @@ import { BrandLogo } from './BrandLogo';
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-hero-glow pt-16">
+    <section className="relative overflow-hidden bg-hero-glow pt-[4.25rem]">
       <div className="site-container grid min-h-[calc(100svh-4rem)] items-center gap-12 py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
         <div>
           <motion.div
@@ -14,7 +14,7 @@ export function Hero() {
             transition={{ duration: 0.45 }}
             className="mb-6 inline-flex items-center gap-3"
           >
-            <BrandLogo size={40} priority decorative />
+            <BrandLogo size={36} priority decorative />
             <span className="font-display text-2xl font-semibold tracking-tight text-inkStrong sm:text-[1.75rem]">
               Shanvai Technologies
             </span>

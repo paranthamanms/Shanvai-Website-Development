@@ -3,21 +3,22 @@ import Image from 'next/image';
 type BrandLogoProps = {
   className?: string;
   priority?: boolean;
-  /** Pixel width. Header standard: 32. Hero lockup: 40. */
+  /** Pixel edge length for the square S mark. */
   size?: number;
   decorative?: boolean;
 };
 
 /**
- * Logo sizing standard (enterprise header/hero ratios):
- * - Header wordmark lockup: 32px mark
- * - Hero brand lockup: 40px mark
- * - Footer: 28px mark
+ * Logo sizing standard:
+ * - Header: 28px
+ * - Hero: 36px
+ * - Contact form card: 20–22px
+ * - Footer: 24px
  */
 export function BrandLogo({
   className = '',
   priority = false,
-  size = 32,
+  size = 28,
   decorative = false,
 }: BrandLogoProps) {
   return (
@@ -25,10 +26,11 @@ export function BrandLogo({
       src="/shanvai-logo.svg"
       alt={decorative ? '' : 'Shanvai Technologies'}
       width={size}
-      height={Math.round(size * 0.93)}
+      height={size}
       priority={priority}
       unoptimized
-      className={`h-auto w-auto select-none ${className}`}
+      className={`select-none object-contain ${className}`}
+      style={{ width: size, height: size, maxWidth: size, maxHeight: size }}
       aria-hidden={decorative || undefined}
     />
   );

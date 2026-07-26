@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { ExpandableSpotlight } from './SpotlightVideo';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
 
@@ -11,60 +13,117 @@ const demos: Array<{
   title: string;
   subtitle: string;
   caption: string;
+  videoSrc: string;
+  posterSrc: string;
 }> = [
   {
     id: 'decision-core',
     title: 'Shanvai Decision Core',
     subtitle: 'Policy → score → explainable outcome',
-    caption: 'Watch a lending decision path resolve in real time.',
+    caption: 'End-to-end lending decision — intake to approve with reason codes.',
+    videoSrc: '/media/demos/decision-core-e2e.mp4',
+    posterSrc: '/media/demos/decision-core-e2e.jpg',
   },
   {
     id: 'credit-bureau',
     title: 'Shanvai Credit Bureau',
     subtitle: 'Ingest → enrich → partner API',
-    caption: 'See multi-source bureau signals assemble into a clean credit view.',
+    caption: 'End-to-end bureau pipeline — SFTP to unified profile and inquiry API.',
+    videoSrc: '/media/demos/credit-bureau-e2e.mp4',
+    posterSrc: '/media/demos/credit-bureau-e2e.jpg',
   },
   {
     id: 'aiops',
     title: 'Shanvai AIOps',
     subtitle: 'Detect → diagnose → automate',
-    caption: 'Follow an ops anomaly from alert through AI-assisted remediation.',
+    caption: 'End-to-end ops journey — anomaly to remediation and SLO recovery.',
+    videoSrc: '/media/demos/aiops-e2e.mp4',
+    posterSrc: '/media/demos/aiops-e2e.jpg',
   },
 ];
 
 export function DemoVideo() {
+  const [mode, setMode] = useState<'video' | 'interactive'>('video');
+
   useEffect(() => {
     void fetch(`${API_BASE}/api/v1/health`).catch(() => undefined);
   }, []);
 
   return (
-    <section id="demo" className="section-pad bg-canvas">
+    <section id="demo" className="section-pad bg-navy">
       <div className="site-container">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="section-eyebrow">Demo</p>
-          <h2 className="section-title mt-3">Product demos</h2>
-          <p className="section-lead">
-            Interactive walkthroughs for Decision Core, Credit Bureau, and AIOps — built for the
-            browser while full recorded videos are prepared.
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-brandMuted">
+            Demo
           </p>
+          <h2 className="mt-3 font-display text-display-md text-white sm:text-display-lg">
+            Product demos
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-white/70 sm:text-lg">
+            End-to-end journeys for Decision Core, Credit Bureau, and AIOps — recorded spotlights
+            hosted on shanvai.com, plus interactive browser walkthroughs.
+          </p>
+          <div className="mt-6 inline-flex rounded-md border border-white/15 bg-navyMid p-1">
+            <button
+              type="button"
+              onClick={() => setMode('video')}
+              className={`rounded px-4 py-2 text-sm font-semibold transition ${
+                mode === 'video' ? 'bg-brand text-white' : 'text-white/70 hover:bg-white/5'
+              }`}
+              aria-pressed={mode === 'video'}
+            >
+              Journey videos
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('interactive')}
+              className={`rounded px-4 py-2 text-sm font-semibold transition ${
+                mode === 'interactive' ? 'bg-brand text-white' : 'text-white/70 hover:bg-white/5'
+              }`}
+              aria-pressed={mode === 'interactive'}
+            >
+              Interactive
+            </button>
+          </div>
         </div>
 
-        <div className="mt-12 space-y-8">
-          {demos.map((demo) => (
-            <article key={demo.id} className="overflow-hidden rounded-xl border border-line bg-white shadow-lift">
-              <div className="flex flex-col gap-1 border-b border-line px-5 py-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <h3 className="font-display text-xl font-semibold text-inkStrong">{demo.title}</h3>
-                  <p className="mt-1 text-sm text-mist">{demo.subtitle}</p>
+        {mode === 'video' ? (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {demos.map((demo) => (
+              <ExpandableSpotlight
+                key={demo.id}
+                src={demo.videoSrc}
+                poster={demo.posterSrc}
+                title={demo.title}
+                subtitle={demo.subtitle}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {demos.map((demo) => (
+              <article
+                key={demo.id}
+                className="overflow-hidden rounded-lg border border-line bg-white shadow-lift"
+              >
+                <div className="border-b border-line px-4 py-3">
+                  <h3 className="font-display text-base font-semibold text-inkStrong">{demo.title}</h3>
+                  <p className="mt-0.5 text-xs text-mist">{demo.subtitle}</p>
                 </div>
-                <p className="text-sm text-mist sm:text-right">{demo.caption}</p>
-              </div>
-              <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-brandSoft via-white to-canvas">
-                <ProductDemoStage product={demo.id} />
-              </div>
-            </article>
-          ))}
-        </div>
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-brandSoft via-white to-canvas">
+                  <ProductDemoStage product={demo.id} />
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <p className="mt-8 text-center text-sm text-white/60">
+          Want a live walkthrough for your institution?{' '}
+          <Link href="/contact" className="font-semibold text-brandMuted hover:text-white">
+            Request a demo
+          </Link>
+        </p>
       </div>
     </section>
   );

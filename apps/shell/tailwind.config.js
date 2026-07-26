@@ -19,6 +19,10 @@ module.exports = {
         surface: '#FFFFFF',
         canvas: '#F8FAFC',
         line: '#E2E8F0',
+        // CRIF-inspired deep navy bands (pairs with brand sky)
+        navy: '#0B1F33',
+        navyMid: '#132F4C',
+        navySoft: '#1A3A5C',
         // Legacy aliases
         inkBlue: '#0284C7',
         inkBlueHover: '#0369A1',
@@ -39,7 +43,7 @@ module.exports = {
         'display-md': ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '600' }],
       },
       maxWidth: {
-        content: '72rem',
+        content: '90rem',
       },
       boxShadow: {
         soft: '0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06)',
@@ -48,7 +52,7 @@ module.exports = {
       },
       backgroundImage: {
         'hero-glow':
-          'radial-gradient(ellipse 70% 50% at 85% 15%, rgba(14,165,233,0.12), transparent 50%), radial-gradient(ellipse 50% 40% at 10% 90%, rgba(2,132,199,0.06), transparent 45%)',
+          'radial-gradient(ellipse 70% 50% at 85% 15%, rgba(14,165,233,0.14), transparent 50%), radial-gradient(ellipse 55% 45% at 0% 100%, rgba(11,31,51,0.08), transparent 50%), radial-gradient(ellipse 50% 40% at 10% 90%, rgba(2,132,199,0.06), transparent 45%)',
       },
     },
   },

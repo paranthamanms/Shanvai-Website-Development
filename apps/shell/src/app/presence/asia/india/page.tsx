@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function IndiaPresencePage() {
   return (
-    <div className="pt-16">
+    <div className="pt-[4.25rem]">
       <section className="border-b border-line bg-brandSoft">
         <div className="site-container py-12">
           <nav className="flex flex-wrap items-center gap-2 text-sm text-mist" aria-label="Breadcrumb">
