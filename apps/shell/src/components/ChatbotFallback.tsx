@@ -6,6 +6,7 @@
  */
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { BrandLogo } from './BrandLogo';
 
 interface ChatbotFallbackProps {
   apiBaseUrl?: string;
@@ -123,11 +124,14 @@ export function ChatbotFallback({
             className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft"
           >
             <header className="flex items-center justify-between border-b border-line bg-brandSoft px-4 py-3">
-              <div>
-                <p id={titleId} className="font-display text-base font-semibold text-inkStrong">
-                  Shanvai Assistant
-                </p>
-                <p className="text-xs text-mist">Decision intelligence · BFSI</p>
+              <div className="flex items-center gap-2.5">
+                <BrandLogo size={28} decorative className="shrink-0" />
+                <div>
+                  <p id={titleId} className="font-display text-base font-semibold text-inkStrong">
+                    Shanvai Assistant
+                  </p>
+                  <p className="text-xs text-mist">Decision intelligence · BFSI</p>
+                </div>
               </div>
               <button
                 type="button"
@@ -205,9 +209,13 @@ export function ChatbotFallback({
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
-        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-soft"
+        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#FF9933]/50 bg-navy shadow-soft ring-2 ring-brand/25"
       >
-        <span className="font-display text-lg font-bold">{open ? '×' : 'AI'}</span>
+        {open ? (
+          <span className="font-display text-xl font-bold text-white">×</span>
+        ) : (
+          <BrandLogo size={34} decorative />
+        )}
       </motion.button>
     </div>
   );

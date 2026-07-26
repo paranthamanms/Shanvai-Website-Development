@@ -144,11 +144,21 @@ export default function ChatbotRemote({
             className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-[#CDE3F2] bg-white shadow-[0_18px_50px_rgba(43,156,217,0.12)]"
           >
             <header className="flex items-center justify-between border-b border-[#CDE3F2] bg-[#E8F6FC] px-4 py-3">
-              <div>
-                <p id={titleId} className="font-display text-base font-semibold text-[#2F4A63]">
-                  Shanvai Assistant
-                </p>
-                <p className="text-xs text-[#6D8AA3]">Decision intelligence · BFSI</p>
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/shanvai-logo.svg"
+                  alt=""
+                  width={28}
+                  height={28}
+                  className="h-7 w-7 object-contain"
+                  aria-hidden
+                />
+                <div>
+                  <p id={titleId} className="font-display text-base font-semibold text-[#2F4A63]">
+                    Shanvai Assistant
+                  </p>
+                  <p className="text-xs text-[#6D8AA3]">Decision intelligence · BFSI</p>
+                </div>
               </div>
               <button
                 type="button"
@@ -237,14 +247,24 @@ export default function ChatbotRemote({
       <motion.button
         type="button"
         aria-expanded={open}
-        aria-controls={open ? undefined : undefined}
         aria-label={open ? 'Close Shanvai assistant' : 'Open Shanvai assistant'}
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
-        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#2B9CD9] text-white shadow-[0_12px_40px_rgba(43,156,217,0.35)]"
+        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#FF9933]/50 bg-[#0B1F33] shadow-[0_12px_40px_rgba(2,132,199,0.28)] ring-2 ring-[#0284C7]/25"
       >
-        <span className="font-display text-lg font-bold">{open ? '×' : 'AI'}</span>
+        {open ? (
+          <span className="font-display text-xl font-bold text-white">×</span>
+        ) : (
+          <img
+            src="/shanvai-logo.svg"
+            alt=""
+            width={34}
+            height={34}
+            className="h-[34px] w-[34px] object-contain"
+            aria-hidden
+          />
+        )}
       </motion.button>
     </div>
   );
