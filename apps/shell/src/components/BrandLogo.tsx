@@ -23,7 +23,7 @@ export function BrandLogo({
 }: BrandLogoProps) {
   return (
     <Image
-      src="/shanvai-logo.svg"
+      src="/shanvai-logo.svg?v=saffron-blue"
       alt={decorative ? '' : 'Shanvai Technologies'}
       width={size}
       height={size}

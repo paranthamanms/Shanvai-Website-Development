@@ -72,15 +72,25 @@ jobs:
           for key in ["taskDefinitionArn", "revision", "status", "requiresAttributes",
                       "compatibilities", "registeredAt", "registeredBy"]:
               td.pop(key, None)
+          lead_env = {
+              "LEAD_NOTIFY_EMAIL": "admin@shanvai.com",
+              "SES_FROM_EMAIL": "noreply@shanvai.com",
+              "EMAIL_PROVIDER": "ses",
+              "AWS_REGION": os.environ.get("AWS_REGION", "ap-south-1"),
+          }
           for c in td["containerDefinitions"]:
               if c["name"] == os.environ["CONTAINER_NAME"]:
                   c["image"] = image
+                  env = {e["name"]: e["value"] for e in c.get("environment", [])}
+                  env.update(lead_env)
+                  c["environment"] = [{"name": k, "value": v} for k, v in env.items()]
           with open("/tmp/td-new.json", "w") as f:
               json.dump(td, f)
           PY
         env:
           IMAGE_URI: ${{ steps.build.outputs.image }}
           CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+          AWS_REGION: ${{ env.AWS_REGION }}
 
       - name: Register and update ECS service
         run: |

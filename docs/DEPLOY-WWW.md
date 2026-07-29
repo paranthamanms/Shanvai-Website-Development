@@ -101,7 +101,8 @@ aws ecs describe-services \
 - VPC `10.50.0.0/16` — does **not** share Credit Bureau `10.40.0.0/16`.
 - ECR `shanvai/www` — not under `credit-bureau/*`.
 - Tags `Project=shanvai` + $50 monthly budget filter.
-- Public site only for now (no leads API / Postgres).
+- Public site serves marketing pages; enterprise demo form posts to Next.js `/api/leads` and emails `admin@shanvai.com` via SES (no Postgres required on www).
+- SES: add `terraform output ses_dkim_records` CNAMEs in Squarespace, then confirm the `admin@shanvai.com` verification mail. While SES is in sandbox, only verified recipients can receive mail.
 
 ## Local container smoke test
 

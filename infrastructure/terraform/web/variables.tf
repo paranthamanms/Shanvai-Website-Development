@@ -66,6 +66,18 @@ variable "budget_email" {
   description = "Optional email for AWS Budget alerts"
 }
 
+variable "lead_notify_email" {
+  type        = string
+  default     = "admin@shanvai.com"
+  description = "Inbox for enterprise demo form submissions"
+}
+
+variable "ses_from_email" {
+  type        = string
+  default     = "noreply@shanvai.com"
+  description = "Verified SES sender for lead notification emails"
+}
+
 variable "github_org" {
   type    = string
   default = "paranthamanms"

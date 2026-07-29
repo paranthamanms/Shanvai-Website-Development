@@ -1,6 +1,7 @@
 import { query } from '../config/db';
 import type { CreateLeadInput } from '../models/schemas';
 import type { Lead } from '../models/types';
+import { sendLeadNotificationEmail } from './email.service';
 
 export async function createLead(
   input: CreateLeadInput,
@@ -18,5 +19,7 @@ export async function createLead(
       ipAddress ?? null,
     ]
   );
-  return result.rows[0];
+  const lead = result.rows[0];
+  await sendLeadNotificationEmail(input, { ip: ipAddress });
+  return lead;
 }

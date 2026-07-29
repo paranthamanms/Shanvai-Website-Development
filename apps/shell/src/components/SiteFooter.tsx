@@ -78,7 +78,7 @@ export function SiteFooter() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2.1fr)] lg:gap-16">
           <div className="text-left">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <BrandLogo size={24} decorative className="brightness-110" />
+              <BrandLogo size={24} decorative />
               <span className="font-display text-base font-semibold tracking-tight text-white">
                 Shanvai
               </span>

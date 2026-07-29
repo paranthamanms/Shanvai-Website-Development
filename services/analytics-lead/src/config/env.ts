@@ -25,4 +25,8 @@ export const env = {
   aiProvider: (process.env.AI_PROVIDER ?? 'stub') as 'stub' | 'openai' | 'gemini',
   openaiApiKey: process.env.OPENAI_API_KEY ?? '',
   geminiApiKey: process.env.GEMINI_API_KEY ?? '',
+  leadNotifyEmail: process.env.LEAD_NOTIFY_EMAIL ?? 'admin@shanvai.com',
+  sesFromEmail: process.env.SES_FROM_EMAIL ?? 'noreply@shanvai.com',
+  emailProvider: (process.env.EMAIL_PROVIDER ?? '') as '' | 'ses' | 'console',
+  awsRegion: process.env.AWS_REGION ?? process.env.AWS_DEFAULT_REGION ?? 'ap-south-1',
 };

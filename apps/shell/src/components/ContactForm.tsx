@@ -1,16 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { z } from 'zod';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
-
-const leadSchema = z.object({
-  fullName: z.string().min(2, 'Enter your full name'),
-  corporateEmail: z.string().email('Use a valid corporate email'),
-  industrySector: z.string().min(2, 'Select an industry sector'),
-  message: z.string().max(5000).optional(),
-});
+import { createLeadSchema } from '@/lib/lead-schema';
 
 const SECTORS = [
   'Banking',
@@ -45,7 +36,7 @@ export function ContactForm({ embedded = false, id = 'contact' }: ContactFormPro
       message: String(form.get('message') || '') || undefined,
     };
 
-    const parsed = leadSchema.safeParse(payload);
+    const parsed = createLeadSchema.safeParse(payload);
     if (!parsed.success) {
       const errs: Record<string, string> = {};
       parsed.error.issues.forEach((i) => {
@@ -57,7 +48,7 @@ export function ContactForm({ embedded = false, id = 'contact' }: ContactFormPro
 
     setStatus('loading');
     try {
-      const res = await fetch(`${API_BASE}/api/v1/leads`, {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed.data),

@@ -149,7 +149,11 @@ resource "aws_ecs_task_definition" "www" {
         { name = "NODE_ENV", value = "production" },
         { name = "PORT", value = "3000" },
         { name = "HOSTNAME", value = "0.0.0.0" },
-        { name = "NEXT_PUBLIC_SITE_URL", value = "https://${var.domain_name}" }
+        { name = "NEXT_PUBLIC_SITE_URL", value = "https://${var.domain_name}" },
+        { name = "LEAD_NOTIFY_EMAIL", value = var.lead_notify_email },
+        { name = "SES_FROM_EMAIL", value = var.ses_from_email },
+        { name = "EMAIL_PROVIDER", value = "ses" },
+        { name = "AWS_REGION", value = var.aws_region }
       ]
       logConfiguration = {
         logDriver = "awslogs"

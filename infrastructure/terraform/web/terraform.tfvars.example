@@ -16,6 +16,10 @@ task_memory       = 512
 monthly_budget_usd = 50
 # budget_email = "you@example.com"
 
+# Enterprise demo form notifications
+lead_notify_email = "admin@shanvai.com"
+ses_from_email    = "noreply@shanvai.com"
+
 github_org    = "paranthamanms"
 github_repo   = "Shanvai-Website-Development"
 github_branch = "main"

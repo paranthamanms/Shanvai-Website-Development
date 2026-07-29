@@ -146,7 +146,7 @@ export default function ChatbotRemote({
             <header className="flex items-center justify-between border-b border-[#CDE3F2] bg-[#E8F6FC] px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <img
-                  src="/shanvai-logo.svg"
+                  src="/shanvai-logo.svg?v=saffron-blue"
                   alt=""
                   width={28}
                   height={28}
@@ -257,7 +257,7 @@ export default function ChatbotRemote({
           <span className="font-display text-xl font-bold text-white">×</span>
         ) : (
           <img
-            src="/shanvai-logo.svg"
+            src="/shanvai-logo.svg?v=saffron-blue"
             alt=""
             width={34}
             height={34}

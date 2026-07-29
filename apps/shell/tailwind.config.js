@@ -8,12 +8,15 @@ module.exports = {
         ink: '#475569',
         inkStrong: '#1E293B',
         mist: '#64748B',
-        // Logo-aligned brand (sky-600 from shanvai-logo.svg)
+        // Logo-aligned brand: saffron → sky blue (shanvai-logo.svg)
         brand: '#0284C7',
         brandHover: '#0369A1',
         brandMuted: '#0EA5E9',
         brandSoft: '#F0F9FF',
         brandWash: '#E0F2FE',
+        saffron: '#FF9933',
+        saffronBright: '#FFB347',
+        saffronSoft: '#FFF4E8',
         // Surfaces
         paper: '#FFFFFF',
         surface: '#FFFFFF',
@@ -52,7 +55,7 @@ module.exports = {
       },
       backgroundImage: {
         'hero-glow':
-          'radial-gradient(ellipse 70% 50% at 85% 15%, rgba(14,165,233,0.14), transparent 50%), radial-gradient(ellipse 55% 45% at 0% 100%, rgba(11,31,51,0.08), transparent 50%), radial-gradient(ellipse 50% 40% at 10% 90%, rgba(2,132,199,0.06), transparent 45%)',
+          'radial-gradient(ellipse 70% 50% at 85% 15%, rgba(14,165,233,0.14), transparent 50%), radial-gradient(ellipse 40% 35% at 70% 20%, rgba(255,153,51,0.08), transparent 45%), radial-gradient(ellipse 55% 45% at 0% 100%, rgba(11,31,51,0.08), transparent 50%), radial-gradient(ellipse 50% 40% at 10% 90%, rgba(2,132,199,0.06), transparent 45%)',
       },
     },
   },

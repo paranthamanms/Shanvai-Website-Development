@@ -50,6 +50,25 @@ output "squarespace_www_cname" {
   value       = aws_cloudfront_distribution.www.domain_name
 }
 
+output "ses_dkim_records" {
+  description = "Add these CNAMEs in Squarespace DNS to verify shanvai.com for SES sending."
+  value = [
+    for token in aws_ses_domain_dkim.apex.dkim_tokens : {
+      name  = "${token}._domainkey.${var.apex_domain}"
+      type  = "CNAME"
+      value = "${token}.dkim.amazonses.com"
+    }
+  ]
+}
+
+output "lead_notify_email" {
+  value = var.lead_notify_email
+}
+
+output "ses_from_email" {
+  value = var.ses_from_email
+}
+
 output "next_steps" {
   value = <<-EOT
     1. aws sso login --profile ${var.aws_profile}
@@ -58,5 +77,6 @@ output "next_steps" {
     4. After apply: set www CNAME → ${aws_cloudfront_distribution.www.domain_name}
     5. Add GitHub secret AWS_ROLE_ARN = ${aws_iam_role.github_ecr_deploy.arn}
     6. Push to main (or run workflow) to build/push shanvai/www and start the ECS service
+    7. Add ses_dkim_records CNAMEs in Squarespace; confirm admin@shanvai.com SES verification email
   EOT
 }
