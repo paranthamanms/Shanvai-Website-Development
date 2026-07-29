@@ -9,3 +9,9 @@ override.tf.json
 *_override.tf.json
 *.tfvars
 !*.tfvars.example
+
+*.tfplan
+tfplan
+.terraform/
+*.tfstate*
+terraform.tfvars
