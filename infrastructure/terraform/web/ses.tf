@@ -11,6 +11,10 @@ resource "aws_ses_email_identity" "lead_notify" {
   email = var.lead_notify_email
 }
 
+resource "aws_ses_email_identity" "ses_from" {
+  email = var.ses_from_email
+}
+
 resource "aws_iam_role_policy" "ecs_task_ses" {
   name = "${local.name_prefix}-ecs-task-ses"
   role = aws_iam_role.ecs_task.id

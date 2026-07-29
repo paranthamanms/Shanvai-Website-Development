@@ -50,6 +50,15 @@ output "squarespace_www_cname" {
   value       = aws_cloudfront_distribution.www.domain_name
 }
 
+output "ses_domain_verification_txt" {
+  description = "Add this TXT record in Squarespace DNS to verify shanvai.com for SES."
+  value = {
+    name  = "_amazonses.${var.apex_domain}"
+    type  = "TXT"
+    value = aws_ses_domain_identity.apex.verification_token
+  }
+}
+
 output "ses_dkim_records" {
   description = "Add these CNAMEs in Squarespace DNS to verify shanvai.com for SES sending."
   value = [
