@@ -28,7 +28,8 @@ export function ContactForm({ embedded = false, id = 'contact' }: ContactFormPro
     setError(null);
     setFieldErrors({});
 
-    const form = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const form = new FormData(formEl);
     const payload = {
       fullName: String(form.get('fullName') || ''),
       corporateEmail: String(form.get('corporateEmail') || ''),
@@ -58,7 +59,7 @@ export function ContactForm({ embedded = false, id = 'contact' }: ContactFormPro
         throw new Error(body.error || `Request failed (${res.status})`);
       }
       setStatus('success');
-      e.currentTarget.reset();
+      formEl.reset();
     } catch (err) {
       setStatus('error');
       setError(err instanceof Error ? err.message : 'Unable to submit');
