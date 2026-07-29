@@ -49,9 +49,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body className="min-h-screen bg-white font-body text-ink antialiased">
+      <body className="min-h-screen max-w-[100%] overflow-x-clip bg-white font-body text-ink antialiased">
         <SiteHeader />
-        <main>{children}</main>
+        <main className="min-w-0 overflow-x-clip">{children}</main>
         <SiteFooter />
         <ChatbotHost />
       </body>

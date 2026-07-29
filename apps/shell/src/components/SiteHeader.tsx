@@ -15,10 +15,10 @@ const links = [
 export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 h-[4.25rem] border-b border-line bg-white/95 backdrop-blur-md">
-      <div className="site-container flex h-full items-center justify-between gap-4">
-        <Link href="/" className="inline-flex min-w-0 items-center gap-3">
+      <div className="site-container flex h-full min-w-0 items-center justify-between gap-3 sm:gap-4">
+        <Link href="/" className="inline-flex min-w-0 max-w-[60%] items-center gap-2 sm:max-w-none sm:gap-3">
           <BrandLogo size={36} priority decorative className="shrink-0" />
-          <span className="font-display text-xl font-semibold tracking-tight text-inkStrong sm:text-2xl sm:text-[1.75rem]">
+          <span className="truncate font-display text-xl font-semibold tracking-tight text-inkStrong sm:text-2xl sm:text-[1.75rem]">
             <span className="sm:hidden">Shanvai</span>
             <span className="hidden sm:inline">Shanvai Technologies</span>
           </span>

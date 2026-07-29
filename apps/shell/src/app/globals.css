@@ -15,6 +15,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
@@ -22,6 +24,8 @@ body {
   color: var(--ink);
   font-feature-settings: 'kern' 1, 'liga' 1;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 ::selection {
@@ -31,7 +35,7 @@ body {
 
 @layer components {
   .site-container {
-    @apply mx-auto w-full max-w-content px-6;
+    @apply mx-auto w-full max-w-content px-4 sm:px-6;
   }
 
   .section-pad {

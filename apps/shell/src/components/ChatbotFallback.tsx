@@ -109,7 +109,7 @@ export function ChatbotFallback({
   );
 
   return (
-    <div className="fixed bottom-5 right-5 z-[100] font-body text-sm">
+    <div className="fixed bottom-4 right-4 z-[100] max-w-[calc(100vw-2rem)] font-body text-sm sm:bottom-5 sm:right-5">
       <AnimatePresence>
         {open && (
           <motion.section
@@ -121,7 +121,7 @@ export function ChatbotFallback({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-            className="mb-3 flex h-[min(560px,70vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft"
+            className="mb-3 flex h-[min(560px,70vh)] w-full max-w-[380px] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft"
           >
             <header className="flex items-center justify-between border-b border-line bg-brandSoft px-4 py-3">
               <div className="flex items-center gap-2.5">

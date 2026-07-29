@@ -12,11 +12,12 @@ export function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="mb-6 inline-flex items-center gap-3"
+            className="mb-6 flex max-w-full flex-wrap items-center gap-3"
           >
-            <BrandLogo size={36} priority decorative />
-            <span className="font-display text-2xl font-semibold tracking-tight text-inkStrong sm:text-[1.75rem]">
-              Shanvai Technologies
+            <BrandLogo size={36} priority decorative className="shrink-0" />
+            <span className="min-w-0 font-display text-xl font-semibold tracking-tight text-inkStrong sm:text-2xl sm:text-[1.75rem]">
+              <span className="sm:hidden">Shanvai</span>
+              <span className="hidden sm:inline">Shanvai Technologies</span>
             </span>
           </motion.div>
 
@@ -24,7 +25,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.06 }}
-            className="max-w-xl font-display text-display-lg text-inkStrong sm:text-display-xl"
+            className="max-w-xl break-words font-display text-display-lg text-inkStrong sm:text-display-xl"
           >
             Decision intelligence for regulated BFSI.
           </motion.h1>
