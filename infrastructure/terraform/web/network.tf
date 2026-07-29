@@ -59,6 +59,19 @@ resource "aws_security_group" "alb" {
     prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
   }
 
+  # HTTPS origin uses the same prefix list; only enable when HTTPS origin is on
+  # (CloudFront prefix-list entries count toward the SG rule quota).
+  dynamic "ingress" {
+    for_each = var.enable_https_origin ? [1] : []
+    content {
+      description     = "HTTPS from CloudFront"
+      from_port       = 443
+      to_port         = 443
+      protocol        = "tcp"
+      prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
+    }
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

@@ -7,6 +7,9 @@ resource "aws_ecr_repository" "www" {
     scan_on_push = true
   }
 
+  # Encryption at rest: AWS-managed AES-256 (changing to CMK requires empty-repo recreate).
+  # Continuous scanning: Inspector v2 (account_security) + scan_on_push.
+
   tags = { Name = "shanvai/www" }
 }
 
@@ -29,6 +32,7 @@ resource "aws_ecr_lifecycle_policy" "www" {
 resource "aws_cloudwatch_log_group" "www" {
   name              = "/ecs/${local.name_prefix}"
   retention_in_days = 14
+  kms_key_id        = aws_kms_key.www.arn
 }
 
 resource "aws_iam_role" "ecs_execution" {
@@ -47,6 +51,21 @@ resource "aws_iam_role" "ecs_execution" {
 resource "aws_iam_role_policy_attachment" "ecs_execution" {
   role       = aws_iam_role.ecs_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy" "ecs_execution_kms" {
+  name = "${local.name_prefix}-ecs-exec-kms"
+  role = aws_iam_role.ecs_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid      = "LogsKms"
+      Effect   = "Allow"
+      Action   = ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey", "kms:DescribeKey"]
+      Resource = [aws_kms_key.www.arn]
+    }]
+  })
 }
 
 resource "aws_iam_role" "ecs_task" {
@@ -198,8 +217,10 @@ resource "aws_ecs_service" "www" {
     container_port   = 3000
   }
 
-  deployment_minimum_healthy_percent = 0
+  # Keep at least one task during rollouts when desired_count >= 1 (avoids ALB 503 gaps).
+  deployment_minimum_healthy_percent = local.has_image ? 50 : 0
   deployment_maximum_percent         = 200
+  health_check_grace_period_seconds  = 60
 
   depends_on = [aws_lb_listener.http]
 

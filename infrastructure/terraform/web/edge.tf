@@ -43,45 +43,51 @@ data "aws_cloudfront_origin_request_policy" "all_viewer" {
 }
 
 resource "aws_cloudfront_distribution" "www" {
-  enabled         = true
-  is_ipv6_enabled = true
-  comment         = "${local.name_prefix} ${var.domain_name}"
-  aliases         = [var.domain_name]
-  price_class     = "PriceClass_200"
+  enabled             = true
+  is_ipv6_enabled     = true
+  comment             = "${local.name_prefix} ${var.domain_name}"
+  aliases             = [var.domain_name]
+  price_class         = "PriceClass_200"
+  web_acl_id          = aws_wafv2_web_acl.www.arn
+  http_version        = "http2and3"
 
   origin {
-    domain_name = aws_lb.this.dns_name
+    domain_name = var.enable_https_origin ? var.origin_hostname : aws_lb.this.dns_name
     origin_id   = "alb"
 
     custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = var.enable_https_origin ? "https-only" : "http-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_read_timeout      = 30
+      origin_keepalive_timeout = 5
     }
   }
 
   # Next.js HTML/SSR + API routes (POST /api/leads) — do not cache at edge
   default_cache_behavior {
-    allowed_methods          = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods           = ["GET", "HEAD"]
-    target_origin_id         = "alb"
-    viewer_protocol_policy   = "redirect-to-https"
-    compress                 = true
-    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_viewer.id
+    allowed_methods            = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods             = ["GET", "HEAD"]
+    target_origin_id           = "alb"
+    viewer_protocol_policy     = "redirect-to-https"
+    compress                   = true
+    cache_policy_id            = data.aws_cloudfront_cache_policy.caching_disabled.id
+    origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.all_viewer.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
   }
 
   # Static assets — cache aggressively
   ordered_cache_behavior {
-    path_pattern             = "/_next/static/*"
-    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
-    cached_methods           = ["GET", "HEAD"]
-    target_origin_id         = "alb"
-    viewer_protocol_policy   = "redirect-to-https"
-    compress                 = true
-    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_optimized.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_viewer.id
+    path_pattern               = "/_next/static/*"
+    allowed_methods            = ["GET", "HEAD", "OPTIONS"]
+    cached_methods             = ["GET", "HEAD"]
+    target_origin_id           = "alb"
+    viewer_protocol_policy     = "redirect-to-https"
+    compress                   = true
+    cache_policy_id            = data.aws_cloudfront_cache_policy.caching_optimized.id
+    origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.all_viewer.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
   }
 
   restrictions {
@@ -97,4 +103,6 @@ resource "aws_cloudfront_distribution" "www" {
   }
 
   tags = { Name = "${local.name_prefix}-cf" }
+
+  depends_on = [aws_wafv2_web_acl.www]
 }

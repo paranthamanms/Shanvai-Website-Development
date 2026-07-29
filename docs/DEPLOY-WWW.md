@@ -103,6 +103,7 @@ aws ecs describe-services \
 - Tags `Project=shanvai` + $50 monthly budget filter.
 - Public site serves marketing pages; enterprise demo form posts to Next.js `/api/leads` and emails `admin@shanvai.com` via SES (no Postgres required on www).
 - SES: add `terraform output ses_dkim_records` CNAMEs in Squarespace, then confirm the `admin@shanvai.com` verification mail. While SES is in sandbox, only verified recipients can receive mail.
+- Security hardening: see [SECURITY.md](./SECURITY.md) (KMS, WAF, GuardDuty/Inspector via shared account stack, headers/CSP).
 
 ## Local container smoke test
 

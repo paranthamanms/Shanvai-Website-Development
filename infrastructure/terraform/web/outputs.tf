@@ -78,6 +78,34 @@ output "ses_from_email" {
   value = var.ses_from_email
 }
 
+output "waf_web_acl_arn" {
+  value = aws_wafv2_web_acl.www.arn
+}
+
+output "kms_key_arn" {
+  value = aws_kms_key.www.arn
+}
+
+output "origin_acm_validation_records" {
+  description = "Add these CNAMEs in Squarespace, then set enable_https_origin=true and re-apply."
+  value = {
+    for dvo in aws_acm_certificate.origin.domain_validation_options : dvo.domain_name => {
+      name  = dvo.resource_record_name
+      type  = dvo.resource_record_type
+      value = dvo.resource_record_value
+    }
+  }
+}
+
+output "origin_hostname_cname" {
+  description = "Point origin hostname at the ALB for HTTPS origin mode."
+  value = {
+    name  = var.origin_hostname
+    type  = "CNAME"
+    value = aws_lb.this.dns_name
+  }
+}
+
 output "next_steps" {
   value = <<-EOT
     1. aws sso login --profile ${var.aws_profile}
@@ -87,5 +115,6 @@ output "next_steps" {
     5. Add GitHub secret AWS_ROLE_ARN = ${aws_iam_role.github_ecr_deploy.arn}
     6. Push to main (or run workflow) to build/push shanvai/www and start the ECS service
     7. Add ses_dkim_records CNAMEs in Squarespace; confirm admin@shanvai.com SES verification email
+    8. Optional HTTPS origin: add origin_acm_validation_records + CNAME ${var.origin_hostname} → ALB, then enable_https_origin=true
   EOT
 }

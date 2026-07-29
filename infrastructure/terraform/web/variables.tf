@@ -78,6 +78,18 @@ variable "ses_from_email" {
   description = "Verified SES sender for lead notification emails"
 }
 
+variable "enable_https_origin" {
+  type        = bool
+  default     = false
+  description = "When true, CloudFront uses HTTPS to origin.shanvai.com (ALB). Requires Squarespace CNAME for origin + ACM issued."
+}
+
+variable "origin_hostname" {
+  type        = string
+  default     = "origin.shanvai.com"
+  description = "Dedicated ALB origin hostname for HTTPS between CloudFront and ALB"
+}
+
 variable "github_org" {
   type    = string
   default = "paranthamanms"
