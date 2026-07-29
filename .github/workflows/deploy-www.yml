@@ -74,7 +74,7 @@ jobs:
               td.pop(key, None)
           lead_env = {
               "LEAD_NOTIFY_EMAIL": "admin@shanvai.com",
-              "SES_FROM_EMAIL": "noreply@shanvai.com",
+              "SES_FROM_EMAIL": "admin@shanvai.com",
               "EMAIL_PROVIDER": "ses",
               "AWS_REGION": os.environ.get("AWS_REGION", "ap-south-1"),
           }

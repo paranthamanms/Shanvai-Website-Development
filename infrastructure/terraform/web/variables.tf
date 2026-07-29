@@ -74,7 +74,7 @@ variable "lead_notify_email" {
 
 variable "ses_from_email" {
   type        = string
-  default     = "noreply@shanvai.com"
+  default     = "admin@shanvai.com"
   description = "Verified SES sender for lead notification emails"
 }
 

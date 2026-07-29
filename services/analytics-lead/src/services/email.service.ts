@@ -2,7 +2,7 @@ import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import type { CreateLeadInput } from '../models/schemas';
 
 const DEFAULT_NOTIFY = 'admin@shanvai.com';
-const DEFAULT_FROM = 'noreply@shanvai.com';
+const DEFAULT_FROM = 'admin@shanvai.com';
 
 function provider(): 'ses' | 'console' {
   const configured = process.env.EMAIL_PROVIDER?.toLowerCase();
